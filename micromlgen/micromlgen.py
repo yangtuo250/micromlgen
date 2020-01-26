@@ -34,6 +34,7 @@ def port(clf,
          platform='arduino',
          **kwargs):
     assert type(clf).__name__ == 'SVC', 'Only sklearn.svm.SVC is supported for now'
+    assert isinstance(clf.gamma, float)
     support_v = clf.support_vectors_
     n_classes = len(clf.n_support_)
     pca_code = port_pca(pca) if pca is not None else ''
