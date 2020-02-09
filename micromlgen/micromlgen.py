@@ -13,22 +13,18 @@ def jinja(template_file, data):
     return code
 
 
-def port_pca(eigen_vectors, test_set=None, test_tolerance=0.01):
+def port_pca(pca):
     return jinja('pca/pca.jinja', {
-        'X_DIM': len(eigen_vectors[0]),
-        'PCA_DIM': len(eigen_vectors),
+        'X_DIM': pca.components_.shape[1],
+        'PCA_DIM': pca.components_.shape[0],
         'F': {
             'round': round
         },
-        'eigen_vectors': eigen_vectors,
-        'X_test': test_set[0] if test_set is not None else None,
-        'y_test': test_set[1] if test_set is not None else None,
-        'TEST_TOLERANCE': test_tolerance
-    })    
+        'pca_components': pca.components_,
+    })
 
 
 def port(clf,
-         pca=None,
          test_set=None,
          classmap=None,
          platform='arduino',
@@ -37,7 +33,6 @@ def port(clf,
     assert isinstance(clf.gamma, float)
     support_v = clf.support_vectors_
     n_classes = len(clf.n_support_)
-    pca_code = port_pca(pca) if pca is not None else ''
     template_data = {
         'KERNEL_TYPE': clf.kernel,
         'KERNEL_GAMMA': clf.gamma,
@@ -47,7 +42,6 @@ def port(clf,
         'VECTORS_COUNT': len(support_v),
         'CLASSES_COUNT': n_classes,
         'DECISIONS_COUNT': n_classes * (n_classes - 1) // 2,
-        'ORIGINAL_FEATURES_DIM': len(support_v[0]) if pca is None else len(pca[0]),
         'support_v': support_v,
         'n_support': clf.n_support_,
         'intercepts': clf.intercept_,
@@ -55,7 +49,6 @@ def port(clf,
         'X': test_set[0] if test_set else None,
         'y': test_set[1] if test_set else None,
         'classmap': classmap,
-        'pca_code': pca_code,
         'F': {
             'enumerate': enumerate,
             'round': round

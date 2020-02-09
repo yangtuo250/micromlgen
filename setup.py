@@ -2,19 +2,22 @@ from distutils.core import setup
 setup(
   name = 'micromlgen',
   packages = ['micromlgen'],
-  version = '0.10',
+  version = '0.12',
   license='MIT',
   description = 'Generate C code for microcontrollers from Python\'s sklearn classifiers',
   author = 'Simone Salerno',
   author_email = 'eloquentarduino@gmail.com',
   url = 'https://github.com/eloquentarduino/micromlgen',
-  download_url = 'https://github.com/eloquentarduino/micromlgen/archive/v_010.tar.gz',
+  download_url = 'https://github.com/eloquentarduino/micromlgen/archive/v_012.tar.gz',
   keywords = ['ML', 'microcontrollers', 'sklearn', 'machine learning'],
   install_requires=[
     'jinja2',
   ],
   package_data= {
-    'micromlgen': ['templates/*.jinja']
+    'micromlgen': [
+      'templates/*.jinja',
+      'templates/pca/*.jinja',
+    ]
   },
   classifiers=[
     'Development Status :: 3 - Alpha',

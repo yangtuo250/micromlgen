@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# user agrimag
+# user eloquentarduino
 
 #git push origin master -f
 rm -rf dist/*

@@ -1,22 +1,21 @@
-{% include '_scalar_product.jinja' %}
+{% include 'pca/_dot_product.jinja' %}
 
 /**
- * This one overrides the original vector
+ * Apply PCA to x vector.
+ * Overrides the original vector.
  */
-void pca(double x[{{ X_DIM }}]) {
-    double u[{{ PCA_DIM }}];
+void pca(float x[{{ X_DIM }}]) {
+    float u[{{ PCA_DIM }}];
 
-    {% for vector in eigen_vectors %}
-    u[{{ loop.index - 1 }}] = scalar_product(x, {{ X_DIM }}, {% for vi in vector %} {% if loop.index > 1 %}, {% endif %} {{ F.round(vi, 9) }} {% endfor %});
+    {% for vector in pca_components %}
+    u[{{ loop.index - 1 }}] = dot_product(x, {{ X_DIM }}, {% for vi in vector %} {% if loop.index > 1 %}, {% endif %} {{ F.round(vi, 9) }} {% endfor %});
     {% endfor %}
 
-    {% for vector in eigen_vectors %}
+    {% for vector in pca_components %}
     x[{{ loop.index - 1 }}] = u[{{ loop.index - 1 }}];
     {% endfor %}
 
-    {% for i in range(eigen_vectors|length, X_DIM) %}
+    {% for i in range(PCA_DIM, X_DIM) %}
     x[{{ i }}] = 0;
     {% endfor %}
 }
-
-{% include 'pca/self_test.jinja' %}
