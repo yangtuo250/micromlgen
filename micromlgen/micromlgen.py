@@ -13,18 +13,15 @@ def jinja(template_file, data):
     return code
 
 
-def port_pca(eigen_vectors, test_set=None, test_tolerance=0.01):
+def port_pca(pca):
     return jinja('pca/pca.jinja', {
-        'X_DIM': len(eigen_vectors[0]),
-        'PCA_DIM': len(eigen_vectors),
+        'X_DIM': pca.components_.shape[1],
+        'PCA_DIM': pca.components_.shape[0],
         'F': {
             'round': round
         },
-        'eigen_vectors': eigen_vectors,
-        'X_test': test_set[0] if test_set is not None else None,
-        'y_test': test_set[1] if test_set is not None else None,
-        'TEST_TOLERANCE': test_tolerance
-    })    
+        'pca_components': pca.components_,
+    })
 
 
 def port(clf,
