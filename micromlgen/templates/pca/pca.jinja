@@ -4,18 +4,16 @@
  * Apply PCA to x vector.
  * Overrides the original vector.
  */
-void pca(float x[{{ X_DIM }}]) {
-    float u[{{ PCA_DIM }}];
+void pca(double x[{{ X_DIM }}]) {
+    double u[{{ PCA_DIM }}] = { 0 };
 
-    {% for vector in pca_components %}
-    u[{{ loop.index - 1 }}] = dot_product(x, {{ X_DIM }}, {% for vi in vector %} {% if loop.index > 1 %}, {% endif %} {{ F.round(vi, 9) }} {% endfor %});
+    {% for i, vector in F.enumerate(pca_components) %}
+        {% for chunk in F.chunk(vector, 100) %}
+            u[{{ i }}] += dot_product(x, {{ chunk|length }}, {% for vi in chunk %} {% if loop.index > 1 %}, {% endif %} {{ F.round(vi, 9) }} {% endfor %});
+        {% endfor %}
     {% endfor %}
 
     {% for vector in pca_components %}
     x[{{ loop.index - 1 }}] = u[{{ loop.index - 1 }}];
-    {% endfor %}
-
-    {% for i in range(PCA_DIM, X_DIM) %}
-    x[{{ i }}] = 0;
     {% endfor %}
 }

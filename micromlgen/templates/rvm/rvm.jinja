@@ -1,0 +1,27 @@
+{% include 'kernel_function.jinja' %}
+
+uint8_t predict(double *x) {
+    double decision[{{ clf.relevant_vectors_|length }}] = { 0 };
+    {% for i, (rv, cf, act, b) in enumerate(zip(clf.relevant_vectors_, clf.coef_, clf.active_, clf.intercept_)) %}
+        {% if rv.shape[0] == 0 %}
+            decision[{{ i }}] = {{ b }};
+        {% else %}
+            decision[{{ i }}] = (compute_kernel(x, {% for vi in rv[0] %}{% if loop.index > 1 %},{% endif %} {{ round(vi, 7) }}{% endfor %}) - {{ clf._x_mean[act][0] }} ) * {{ cf[act][0] / clf._x_std[act][0] }} + {{ b }};
+        {% endif %}
+    {% endfor %}
+
+    uint8_t idx = 0;
+    double val = decision[0];
+
+    for (uint8_t i = 1; i < {{ clf.relevant_vectors_|length }}; i++) {
+        if (decision[i] > val) {
+            idx = i;
+            val = decision[i];
+        }
+    }
+
+    return idx;
+}
+
+{% include 'self_test.jinja' %}
+{% include 'classmap.jinja' %}

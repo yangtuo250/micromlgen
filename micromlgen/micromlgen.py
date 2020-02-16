@@ -24,6 +24,26 @@ def port_pca(pca):
     })
 
 
+def port_rvm(clf, classmap=None, test_set=None, **kwargs):
+    from skbayes.rvm_ard_models import RVC
+    assert isinstance(clf, RVC), 'Not an RVC classifier'
+    return jinja('rvm/rvm.jinja', {
+        'clf': clf,
+        'FEATURES_DIM': clf.relevant_vectors_[0].shape[1],
+        'KERNEL_TYPE': clf.kernel,
+        'KERNEL_GAMMA': clf.gamma,
+        'KERNEL_COEF': clf.coef0,
+        'KERNEL_DEGREE': clf.degree,
+        'N_CLASSES': len(clf.classes_),
+        'classmap': classmap,
+        'X': test_set[0] if test_set else None,
+        'y': test_set[1] if test_set else None,
+        'enumerate': enumerate,
+        'zip': zip,
+        'round': round
+    })
+
+
 def port(clf,
          test_set=None,
          classmap=None,
@@ -56,3 +76,4 @@ def port(clf,
         'isAttiny': platform == 'attiny',
     }
     return jinja('svm.jinja', template_data)
+

@@ -11,7 +11,7 @@ void self_test() {
        {% endfor %}
     };
 
-    int y[{{ X|length }}] = { {% for yi in y %}{% if loop.index > 1 %},{% endif %} {{ yi }} {% endfor %} };
+    int y[{{ X|length }}] = { {% for yi in y %}{% if loop.index > 1 %},{% endif %} {{ yi|int }} {% endfor %} };
 
     for (int i = 0; i < {{ X|length }}; i++) {
         int predicted = predict(X[i]);
