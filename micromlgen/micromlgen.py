@@ -50,7 +50,7 @@ def port(clf,
          platform='arduino',
          **kwargs):
     assert type(clf).__name__ == 'SVC', 'Only sklearn.svm.SVC is supported for now'
-    assert isinstance(clf.gamma, float)
+    assert isinstance(clf.gamma, float), 'You probably didn\'t set an explicit value for gamma: 0.001 is a good default'
     support_v = clf.support_vectors_
     n_classes = len(clf.n_support_)
     template_data = {

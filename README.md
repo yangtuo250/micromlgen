@@ -1,7 +1,7 @@
 # Introducing MicroML
 
 MicroML is an attempt to bring Machine Learning algorithms to microcontrollers.
-Please refer to [this blog post](https://agrimagsrl.github.io/EloquentArduino/2019/11/introducing-microml/)
+Please refer to [this blog post](https://eloquentarduino.github.io/2019/11/you-can-run-machine-learning-on-arduino/)
 to an introduction to the topic.
 
 ## Install
