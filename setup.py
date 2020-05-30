@@ -1,26 +1,34 @@
 from distutils.core import setup
+from glob import glob
+
+package_data = [filename.replace('micromlgen/', '')
+                for filename in glob('micromlgen/**/*.jinja', recursive=True)]
+
 setup(
   name = 'micromlgen',
   packages = ['micromlgen'],
-  version = '0.13',
+  version = '1.0',
   license='MIT',
   description = 'Generate C code for microcontrollers from Python\'s sklearn classifiers',
   author = 'Simone Salerno',
   author_email = 'eloquentarduino@gmail.com',
   url = 'https://github.com/eloquentarduino/micromlgen',
-  download_url = 'https://github.com/eloquentarduino/micromlgen/archive/v_013.tar.gz',
-  keywords = ['ML', 'microcontrollers', 'sklearn', 'machine learning'],
+  download_url = 'https://github.com/eloquentarduino/micromlgen/archive/v_10bis.tar.gz',
+  keywords = [
+    'ML',
+    'microcontrollers',
+    'sklearn',
+    'machine learning'
+  ],
   install_requires=[
     'jinja2',
+    'scikit-learn'
   ],
   package_data= {
-    'micromlgen': [
-      'templates/*.jinja',
-      'templates/pca/*.jinja',
-    ]
+    'micromlgen': package_data
   },
   classifiers=[
-    'Development Status :: 3 - Alpha',
+    'Development Status :: 5 - Production/Stable',
     'Intended Audience :: Developers',
     'Topic :: Software Development :: Code Generators',
     'License :: OSI Approved :: MIT License',

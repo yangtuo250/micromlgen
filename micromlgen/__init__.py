@@ -1,1 +1,2 @@
-from micromlgen.micromlgen import port, port_pca, port_rvm
+import micromlgen.platforms as platforms
+from micromlgen.micromlgen import port
