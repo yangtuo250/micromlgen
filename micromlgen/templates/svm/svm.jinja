@@ -21,7 +21,7 @@ namespace Eloquent {
                         {% include 'svm/computations/kernel/%s.jinja' % platform %}
 
                         {% if sizes.classes == 1 %}
-                            float decision = {{ f.round(arrays.intercepts[0]) }} - ({% for i, coef in f.enumerate(arrays.coefs[0]) %} + kernels[{{ i }}] * {{ f.round(coef, 9) }} {% endfor %});
+                            float decision = {{ f.round(arrays.intercepts[0]) }} - ({% for i, coef in f.enumerate(arrays.coefs[0]) %} + kernels[{{ i }}] {% if coef != 1 %}* {{ f.round(coef) }}{% endif %} {% endfor %});
 
                             return decision > 0 ? 0 : 1;
 
