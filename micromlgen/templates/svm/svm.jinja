@@ -15,8 +15,10 @@ namespace Eloquent {
                      */
                     int predict(float *x) {
                         float kernels[{{ sizes.vectors }}] = { 0 };
-                        float decisions[{{ sizes.decisions }}] = { 0 };
-                        int votes[{{ sizes.classes }}] = { 0 };
+                        {% if sizes.classes > 1 %}
+                            float decisions[{{ sizes.decisions }}] = { 0 };
+                            int votes[{{ sizes.classes }}] = { 0 };
+                        {% endif %}
 
                         {% include 'svm/computations/kernel/%s.jinja' % platform %}
 

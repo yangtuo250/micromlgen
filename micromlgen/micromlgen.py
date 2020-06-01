@@ -1,31 +1,8 @@
-import os
-import re
-from micromlgen import platforms
-from sklearn.svm import SVC, LinearSVC, OneClassSVM
 from skbayes.rvm_ard_models import RVC
-from jinja2 import FileSystemLoader, Environment
+from sklearn.svm import SVC, LinearSVC, OneClassSVM
 
-
-def jinja(template_file, data):
-    """Render Jinja template"""
-    dir_path = os.path.dirname(os.path.realpath(__file__))
-    loader = FileSystemLoader(dir_path + '/templates')
-    template = Environment(loader=loader).get_template(template_file)
-    code = template.render(data)
-    code = re.sub(r'\n\s*\n', '\n', code)
-    return code
-
-
-def _port(template, data):
-    """Add common template data before rendering"""
-    data.update(**{
-        'f': {
-            'enumerate': enumerate,
-            'round': lambda x: round(x, data.get('precision', 9) or 9),
-            'zip': zip
-        }
-    })
-    return jinja(template, data)
+from micromlgen import platforms
+from micromlgen.utils import jinja
 
 
 def port_rvm(clf, classname, **kwargs):
@@ -52,13 +29,15 @@ def port_rvm(clf, classname, **kwargs):
         },
         'classname': classname if classname is not None else 'RVM',
     }
-    return _port('rvm/rvm.jinja', template_data)
+    return jinja('rvm/rvm.jinja', template_data)
 
 
 def port_svm(clf, classname=None, **kwargs):
     """Port a SVC / LinearSVC classifier"""
     assert isinstance(clf.gamma, float), 'You probably didn\'t set an explicit value for gamma: 0.001 is a good default'
     assert classname is None or len(classname) > 0, 'Invalid class name'
+    if classname is None:
+        classname = 'OneClassSVM' if isinstance(clf, OneClassSVM) else 'SVM'
     support_v = clf.support_vectors_
     n_classes = len(clf.n_support_)
     template_data = {
@@ -81,9 +60,9 @@ def port_svm(clf, classname=None, **kwargs):
             'intercepts': clf.intercept_,
             'coefs': clf.dual_coef_
         },
-        'classname': classname if classname is not None else 'SVM'
+        'classname': classname
     }
-    return _port('svm/svm.jinja', template_data)
+    return jinja('svm/svm.jinja', template_data)
 
 
 def port(
