@@ -8,7 +8,10 @@ to an introduction to the topic.
 
 `pip install micromlgen`
 
-## Use
+## Support (and Relevant) Vector Machines
+
+`micromlgen` can port to plain C SVM-based (SVC, LinearSVC, OneClassSVM)
+and RVM-based (from `skbayes.rvm_ard_models` package) classifiers.
 
 ```python
 from micromlgen import port
@@ -44,18 +47,18 @@ if __name__ == '__main__':
     }))
 ```
 
-You can pass a test set to generate self test code
+## PCA
+
+It can export a PCA transformer.
 
 ```python
-from micromlgen import port
-from sklearn.svm import SVC
+from sklearn.decomposition import PCA
 from sklearn.datasets import load_iris
-
+from micromlgen import port
 
 if __name__ == '__main__':
-    iris = load_iris()
-    X_train, X_test = iris.data[:-10, :], iris.data[-10:, :]
-    y_train, y_test = iris.target[:-10], iris.target[-10:]
-    clf = SVC(kernel='linear').fit(X_train, y_train)
-    print(port(clf, test_set=(X_test, y_test)))
+    X = load_iris().data
+    pca = PCA(n_components=2, whiten=False).fit(X)
+    
+    print(port(pca))
 ```

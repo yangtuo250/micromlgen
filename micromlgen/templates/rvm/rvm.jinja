@@ -10,8 +10,8 @@ namespace Eloquent {
 
                     }
 
-                    uint8_t predict(double *x) {
-                        double decision[{{ arrays.vectors|length }}] = { 0 };
+                    uint8_t predict(float *x) {
+                        float decision[{{ arrays.vectors|length }}] = { 0 };
                         {% for i, (rv, cf, act, b) in f.enumerate(f.zip(arrays.vectors, arrays.coefs, arrays.actives, arrays.intercepts)) %}
                             {% if rv.shape[0] == 0 %}
                                 decision[{{ i }}] = {{ b }};
@@ -21,7 +21,7 @@ namespace Eloquent {
                         {% endfor %}
 
                         uint8_t idx = 0;
-                        double val = decision[0];
+                        float val = decision[0];
 
                         for (uint8_t i = 1; i < {{ arrays.vectors|length }}; i++) {
                             if (decision[i] > val) {

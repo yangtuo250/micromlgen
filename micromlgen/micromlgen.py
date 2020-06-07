@@ -1,5 +1,6 @@
 from skbayes.rvm_ard_models import RVC
 from sklearn.svm import SVC, LinearSVC, OneClassSVM
+from sklearn.decomposition import PCA
 
 from micromlgen import platforms
 from micromlgen.utils import jinja
@@ -65,6 +66,18 @@ def port_svm(clf, classname=None, **kwargs):
     return jinja('svm/svm.jinja', template_data)
 
 
+def port_pca(pca, classname=None, **kwargs):
+    """Port a PCA"""
+    template_data = {
+        'arrays': {
+            'components': pca.components_,
+            'mean': pca.mean_
+        },
+        'classname': classname if classname is not None else 'PCA'
+    }
+    return jinja('pca/pca.jinja', template_data)
+
+
 def port(
         clf,
         classname=None,
@@ -76,4 +89,6 @@ def port(
         return port_svm(**locals())
     elif isinstance(clf, RVC):
         return port_rvm(**locals())
-    raise TypeError('clf MUST be one of SVC, LinearSVC, OneClassSVC, RVC')
+    elif isinstance(clf, PCA):
+        return port_pca(pca=clf, **locals())
+    raise TypeError('clf MUST be one of SVC, LinearSVC, OneClassSVC, RVC, PCA')

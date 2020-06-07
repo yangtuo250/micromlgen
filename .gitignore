@@ -2,3 +2,4 @@ venv
 .idea
 tests
 dist
+micromlgen/__pycache__

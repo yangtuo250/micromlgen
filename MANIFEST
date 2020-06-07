@@ -6,7 +6,7 @@ micromlgen/micromlgen.py
 micromlgen/platforms.py
 micromlgen/utils.py
 micromlgen/templates/classmap.jinja
-micromlgen/templates/xy.jinja
+micromlgen/templates/testset.jinja
 micromlgen/templates/rvm/rvm.jinja
 micromlgen/templates/svm/svm.jinja
 micromlgen/templates/svm/computations/class.jinja
