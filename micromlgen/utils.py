@@ -46,5 +46,9 @@ def jinja(template_file, data):
     return prettify(code)
 
 
+def port_trainset(X, y, classname='TrainSet'):
+    return jinja('trainset.jinja', locals())
+
+
 def port_testset(X, y, classname='TestSet'):
     return jinja('testset.jinja', locals())

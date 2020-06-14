@@ -8,6 +8,7 @@ micromlgen/platforms.py
 micromlgen/utils.py
 micromlgen/templates/classmap.jinja
 micromlgen/templates/testset.jinja
+micromlgen/templates/trainset.jinja
 micromlgen/templates/pca/pca.jinja
 micromlgen/templates/rvm/rvm.jinja
 micromlgen/templates/svm/svm.jinja
