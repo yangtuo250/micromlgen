@@ -1,6 +1,9 @@
-from skbayes.rvm_ard_models import RVC
 from sklearn.svm import SVC, LinearSVC, OneClassSVM
 from sklearn.decomposition import PCA
+try:
+    from skbayes.rvm_ard_models import RVC
+except ImportError:
+    from micromlgen.patches import RVC
 
 from micromlgen import platforms
 from micromlgen.utils import jinja

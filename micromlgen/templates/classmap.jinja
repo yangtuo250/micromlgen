@@ -3,8 +3,8 @@
 /**
  * Convert class idx to readable name
  */
-const char* classIdxToName(uint8_t classIdx) {
-    switch (classIdx) {
+const char* predictLabel(float *x) {
+    switch (predict(x)) {
         {% for idx, name in classmap.items() %}
             case {{ idx }}:
                 return "{{ name }}";
