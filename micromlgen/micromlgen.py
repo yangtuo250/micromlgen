@@ -4,6 +4,10 @@ try:
     from skbayes.rvm_ard_models import RVC
 except ImportError:
     from micromlgen.patches import RVC
+try:
+    from sefr import SEFR
+except ImportError:
+    from micromlgen.patches import SEFR
 
 from micromlgen import platforms
 from micromlgen.utils import jinja
@@ -81,6 +85,15 @@ def port_pca(pca, classname=None, **kwargs):
     return jinja('pca/pca.jinja', template_data)
 
 
+def port_sefr(clf, classname=None, **kwargs):
+    kwargs.update({
+        'weights': clf.weights,
+        'bias': clf.bias,
+        'classname': classname or 'SEFR'
+    })
+    return jinja('sefr/sefr.jinja', kwargs)
+
+
 def port(
         clf,
         classname=None,
@@ -94,4 +107,6 @@ def port(
         return port_rvm(**locals())
     elif isinstance(clf, PCA):
         return port_pca(pca=clf, **locals())
+    elif isinstance(clf, SEFR):
+        return port_sefr(**locals())
     raise TypeError('clf MUST be one of SVC, LinearSVC, OneClassSVC, RVC, PCA')

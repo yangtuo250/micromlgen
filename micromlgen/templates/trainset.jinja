@@ -18,8 +18,8 @@ namespace Eloquent {
                     {}
 
                     template<class Classifier>
-                    void fit(Classifier clf) {
-                        clf.fit(_x, _y, {{ X|length }});
+                    void fit(Classifier *clf) {
+                        clf->fit(_x, _y, {{ X|length }});
                     }
 
                 protected:
