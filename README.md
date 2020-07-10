@@ -62,3 +62,21 @@ if __name__ == '__main__':
     
     print(port(pca))
 ```
+
+## SEFR
+
+Read the post about [SEFR](https://eloquentarduino.github.io/2020/07/sefr-a-fast-linear-time-classifier-for-ultra-low-power-devices/).
+
+```shell script
+pip install sefr
+```
+
+```python
+from sefr import SEFR
+from micromlgen import port
+
+
+clf = SEFR()
+clf.fit(X, y)
+print(port(clf))
+```
