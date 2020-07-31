@@ -16,7 +16,7 @@ float dot(float *x, {{ signature }}) {
     float dot = 0.0;
 
     for (uint16_t i = 0; i < {{ dimension }}; i++) {
-        const float wi = {{ wi }}
+        const float wi = {{ wi }};
         dot += {{ expr }};
     }
 
