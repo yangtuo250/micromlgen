@@ -1,5 +1,6 @@
-from sklearn.svm import SVC, LinearSVC, OneClassSVM
 from sklearn.decomposition import PCA
+from sklearn.svm import SVC, LinearSVC, OneClassSVM
+
 try:
     from skbayes.rvm_ard_models import RVC
 except ImportError:
@@ -10,88 +11,14 @@ except ImportError:
     from micromlgen.patches import SEFR
 
 from micromlgen import platforms
-from micromlgen.utils import jinja
-
-
-def port_rvm(clf, classname, **kwargs):
-    """Port a RVM classifier"""
-    assert classname is None or len(classname) > 0, 'Invalid class name'
-    template_data = {
-        **kwargs,
-        'kernel': {
-            'type': clf.kernel,
-            'gamma': clf.gamma,
-            'coef0': clf.coef0,
-            'degree': clf.degree
-        },
-        'sizes': {
-            'features': len(clf.relevant_vectors_[0]),
-        },
-        'arrays': {
-            'vectors': clf.relevant_vectors_,
-            'coefs': clf.coef_,
-            'actives': clf.active_,
-            'intercepts': clf.intercept_,
-            'mean': clf._x_mean,
-            'std': clf._x_std
-        },
-        'classname': classname if classname is not None else 'RVM',
-    }
-    return jinja('rvm/rvm.jinja', template_data)
-
-
-def port_svm(clf, classname=None, **kwargs):
-    """Port a SVC / LinearSVC classifier"""
-    assert isinstance(clf.gamma, float), 'You probably didn\'t set an explicit value for gamma: 0.001 is a good default'
-    assert classname is None or len(classname) > 0, 'Invalid class name'
-    if classname is None:
-        classname = 'OneClassSVM' if isinstance(clf, OneClassSVM) else 'SVM'
-    support_v = clf.support_vectors_
-    n_classes = len(clf.n_support_)
-    template_data = {
-        **kwargs,
-        'kernel': {
-            'type': clf.kernel,
-            'gamma': clf.gamma,
-            'coef0': clf.coef0,
-            'degree': clf.degree
-        },
-        'sizes': {
-            'features': len(support_v[0]),
-            'vectors': len(support_v),
-            'classes': n_classes,
-            'decisions': n_classes * (n_classes - 1) // 2,
-            'supports': clf.n_support_
-        },
-        'arrays': {
-            'supports': support_v,
-            'intercepts': clf.intercept_,
-            'coefs': clf.dual_coef_
-        },
-        'classname': classname
-    }
-    return jinja('svm/svm.jinja', template_data)
-
-
-def port_pca(pca, classname=None, **kwargs):
-    """Port a PCA"""
-    template_data = {
-        'arrays': {
-            'components': pca.components_,
-            'mean': pca.mean_
-        },
-        'classname': classname if classname is not None else 'PCA'
-    }
-    return jinja('pca/pca.jinja', template_data)
-
-
-def port_sefr(clf, classname=None, **kwargs):
-    kwargs.update({
-        'weights': clf.weights,
-        'bias': clf.bias,
-        'classname': classname or 'SEFR'
-    })
-    return jinja('sefr/sefr.jinja', kwargs)
+from micromlgen.svm import port_svm
+from micromlgen.rvm import port_rvm
+from micromlgen.sefr import port_sefr
+from micromlgen.decisiontree import is_decisiontree, port_decisiontree
+from micromlgen.randomforest import is_randomforest, port_randomforest
+from micromlgen.logisticregression import is_logisticregression, port_logisticregression
+from micromlgen.gaussiannb import is_gaussiannb, port_gaussiannb
+from micromlgen.pca import port_pca
 
 
 def port(
@@ -100,6 +27,7 @@ def port(
         classmap=None,
         platform=platforms.ARDUINO,
         precision=None):
+    """Port a classifier to plain C++"""
     assert platform in platforms.ALL, 'Unknown platform %s. Use one of %s' % (platform, ', '.join(platforms.ALL))
     if isinstance(clf, (SVC, LinearSVC, OneClassSVM)):
         return port_svm(**locals())
@@ -109,4 +37,12 @@ def port(
         return port_pca(pca=clf, **locals())
     elif isinstance(clf, SEFR):
         return port_sefr(**locals())
-    raise TypeError('clf MUST be one of SVC, LinearSVC, OneClassSVC, RVC, PCA')
+    elif is_decisiontree(clf):
+        return port_decisiontree(**locals())
+    elif is_randomforest(clf):
+        return port_randomforest(**locals())
+    elif is_logisticregression(clf):
+        return port_logisticregression(**locals())
+    elif is_gaussiannb(clf):
+        return port_gaussiannb(**locals())
+    raise TypeError('clf MUST be one of SVC, LinearSVC, OneClassSVC, RVC, DecisionTree, RandomForest, LogisticRegression, GaussianNB, SEFR, PCA')

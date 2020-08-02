@@ -7,13 +7,13 @@ package_data = [filename.replace('micromlgen/', '')
 setup(
   name = 'micromlgen',
   packages = ['micromlgen'],
-  version = '1.1.3',
+  version = '1.1.6',
   license='MIT',
   description = 'Generate C code for microcontrollers from Python\'s sklearn classifiers',
   author = 'Simone Salerno',
   author_email = 'eloquentarduino@gmail.com',
   url = 'https://github.com/eloquentarduino/micromlgen',
-  download_url = 'https://github.com/eloquentarduino/micromlgen/archive/v_113.tar.gz',
+  download_url = 'https://github.com/eloquentarduino/micromlgen/archive/v_116.tar.gz',
   keywords = [
     'ML',
     'microcontrollers',

@@ -30,18 +30,26 @@ def prettify(code):
     return pretty
 
 
-def jinja(template_file, data):
+def jinja(template_file, data, **kwargs):
     """Render Jinja template"""
     dir_path = os.path.dirname(os.path.realpath(__file__))
     loader = FileSystemLoader(dir_path + '/templates')
     template = Environment(loader=loader).get_template(template_file)
-    data.update(**{
+    data = {k: v for k, v in data.items() if v is not None}
+    defaults = {
+        'classmap': None,
+        'platform': 'arduino',
         'f': {
             'enumerate': enumerate,
             'round': lambda x: round(x, data.get('precision', 12) or 12),
             'zip': zip
         }
-    })
+    }
+    data = {
+        **defaults,
+        **kwargs,
+        **data
+    }
     code = template.render(data)
     return prettify(code)
 
