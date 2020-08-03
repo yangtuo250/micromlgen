@@ -1,53 +1,34 @@
-#pragma once
+{% extends '_skeleton.jinja' %}
 
-namespace Eloquent {
-    namespace ML {
-        namespace Port {
+{% block predict %}
 
-            class {{ classname }} {
-                public:
-                    {{ classname }}() {
+    float kernels[{{ sizes.vectors }}] = { 0 };
+    {% if sizes.classes > 1 %}
+        float decisions[{{ sizes.decisions }}] = { 0 };
+        int votes[{{ sizes.classes }}] = { 0 };
+    {% endif %}
 
-                    }
+    {% include 'svm/computations/kernel/%s.jinja' % platform %}
 
-                    /**
-                     * Predict class for features vector
-                     */
-                    int predict(float *x) {
-                        float kernels[{{ sizes.vectors }}] = { 0 };
-                        {% if sizes.classes > 1 %}
-                            float decisions[{{ sizes.decisions }}] = { 0 };
-                            int votes[{{ sizes.classes }}] = { 0 };
-                        {% endif %}
+    {% if sizes.classes == 1 %}
+        float decision = {{ f.round(arrays.intercepts[0]) }} - ({% for i, coef in f.enumerate(arrays.coefs[0]) %} + kernels[{{ i }}] {% if coef != 1 %}* {{ f.round(coef) }}{% endif %} {% endfor %});
 
-                        {% include 'svm/computations/kernel/%s.jinja' % platform %}
+        return decision > 0 ? 0 : 1;
 
-                        {% if sizes.classes == 1 %}
-                            float decision = {{ f.round(arrays.intercepts[0]) }} - ({% for i, coef in f.enumerate(arrays.coefs[0]) %} + kernels[{{ i }}] {% if coef != 1 %}* {{ f.round(coef) }}{% endif %} {% endfor %});
+    {% elif sizes.classes == 2 %}
+        float decision = {{ f.round(arrays.intercepts[0]) }};
 
-                            return decision > 0 ? 0 : 1;
+        decision = decision - ({% for i in range(0, sizes.supports[0]) %} + kernels[{{ i }}] * {{ f.round(arrays.coefs[0][i]) }} {% endfor %});
+        decision = decision - ({% for i in range(sizes.supports[0], sizes.supports[0] + sizes.supports[1]) %} + kernels[{{ i }}] * {{ f.round(arrays.coefs[0][i]) }} {% endfor %});
 
-                        {% elif sizes.classes == 2 %}
-                            float decision = {{ f.round(arrays.intercepts[0]) }};
+        return decision > 0 ? 0 : 1;
+    {% else %}
+        {% include 'svm/computations/decisions.jinja' %}
+        {% include 'svm/computations/votes.jinja' %}
+        {% include 'svm/computations/class.jinja' %}
+    {% endif %}
+{% endblock %}
 
-                            decision = decision - ({% for i in range(0, sizes.supports[0]) %} + kernels[{{ i }}] * {{ f.round(arrays.coefs[0][i]) }} {% endfor %});
-                            decision = decision - ({% for i in range(sizes.supports[0], sizes.supports[0] + sizes.supports[1]) %} + kernels[{{ i }}] * {{ f.round(arrays.coefs[0][i]) }} {% endfor %});
-
-                            return decision > 0 ? 0 : 1;
-                        {% else %}
-                            {% include 'svm/computations/decisions.jinja' %}
-                            {% include 'svm/computations/votes.jinja' %}
-                            {% include 'svm/computations/class.jinja' %}
-                        {% endif %}
-                    }
-
-                    {% include 'classmap.jinja' %}
-
-                protected:
-
-                    {% include 'svm/kernel/%s.jinja' % platform %}
-
-            };
-        }
-    }
-}
+{% block protected %}
+    {% include 'svm/kernel/%s.jinja' % platform %}
+{% endblock %}

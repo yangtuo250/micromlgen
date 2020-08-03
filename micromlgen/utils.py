@@ -1,6 +1,18 @@
 import os
 import re
+from inspect import getmro
 from jinja2 import FileSystemLoader, Environment
+
+
+def check_type(instance, *classes):
+    """Check if object is instance of given class"""
+    for klass in classes:
+        if type(instance).__name__ == klass:
+            return True
+        for T in getmro(type(instance)):
+            if T.__name__ == klass:
+                return True
+    return False
 
 
 def prettify(code):
@@ -30,21 +42,24 @@ def prettify(code):
     return pretty
 
 
-def jinja(template_file, data, **kwargs):
+def jinja(template_file, data, defaults=None, **kwargs):
     """Render Jinja template"""
     dir_path = os.path.dirname(os.path.realpath(__file__))
     loader = FileSystemLoader(dir_path + '/templates')
     template = Environment(loader=loader).get_template(template_file)
     data = {k: v for k, v in data.items() if v is not None}
-    defaults = {
-        'classmap': None,
-        'platform': 'arduino',
+    kwargs = {k: v for k, v in kwargs.items() if v is not None}
+    if defaults is None:
+        defaults = {}
+    defaults.setdefault('platform', 'arduino')
+    defaults.setdefault('classmap', None)
+    defaults.update({
         'f': {
             'enumerate': enumerate,
             'round': lambda x: round(x, data.get('precision', 12) or 12),
             'zip': zip
         }
-    }
+    })
     data = {
         **defaults,
         **kwargs,

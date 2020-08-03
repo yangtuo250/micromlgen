@@ -1,30 +1,14 @@
-#pragma once
+{% extends '_skeleton.jinja' %}
 
-namespace Eloquent {
-    namespace ML {
-        namespace Port {
+{% block predict %}
+    float votes[{{ classes|length }}] = { 0.0f };
 
-            class {{ classname }} {
-                public:
+    {% include 'logisticregression/vote.%s.jinja' % platform %}
+    {% include 'vote.jinja' %}
+{% endblock %}
 
-                    /**
-                     * Predict class for features vector
-                     */
-                    int predict(float *x) {
-                        float votes[{{ classes|length }}] = { 0.0f };
-
-                        {% include 'logisticregression/vote.%s.jinja' % platform %}
-                        {% include 'vote.jinja' %}
-                    }
-
-                    {% include 'classmap.jinja' %}
-
-                protected:
-
-                    {% with dimension = weights[0]|length, expr = 'x[i] * wi' %}
-                        {% include 'dot.jinja' %}
-                    {% endwith %}
-            };
-        }
-    }
-}
+{% block protected %}
+    {% with dimension = weights[0]|length, expr = 'x[i] * wi' %}
+        {% include 'dot.jinja' %}
+    {% endwith %}
+{% endblock %}

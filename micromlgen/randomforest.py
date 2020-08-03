@@ -1,15 +1,13 @@
-from sklearn.ensemble import RandomForestClassifier
-from micromlgen.utils import jinja
+from micromlgen.utils import jinja, check_type
 
 
 def is_randomforest(clf):
     """Test if classifier can be ported"""
-    return isinstance(clf, RandomForestClassifier)
+    return check_type(clf, 'RandomForestClassifier')
 
 
 def port_randomforest(clf, **kwargs):
     """Port sklearn's RandomForestClassifier"""
-    kwargs['classname'] = kwargs['classname'] or 'RandomForest'
     return jinja('randomforest/randomforest.jinja', {
         'n_classes': clf.n_classes_,
         'trees': [{
@@ -19,4 +17,6 @@ def port_randomforest(clf, **kwargs):
             'thresholds': clf.tree_.threshold,
             'classes': clf.tree_.value,
         } for clf in clf.estimators_]
-    }, **locals())
+    }, {
+        'classname': 'RandomForest'
+    }, **kwargs)

@@ -1,13 +1,18 @@
-from micromlgen.utils import jinja
+from micromlgen.utils import jinja, check_type
 
 
-def port_pca(pca, classname=None, **kwargs):
+def is_pca(clf):
+    """Test if classifier can be ported"""
+    return check_type(clf, 'PCA')
+
+
+def port_pca(clf, **kwargs):
     """Port a PCA"""
-    template_data = {
+    return jinja('pca/pca.jinja', {
         'arrays': {
-            'components': pca.components_,
-            'mean': pca.mean_
+            'components': clf.components_,
+            'mean': clf.mean_
         },
-        'classname': classname if classname is not None else 'PCA'
-    }
-    return jinja('pca/pca.jinja', template_data)
+    }, {
+        'classname': 'PCA'
+    }, **kwargs)

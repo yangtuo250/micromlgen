@@ -1,40 +1,24 @@
-#pragma once
+{% extends '_skeleton.jinja' %}
 
-namespace Eloquent {
-    namespace ML {
-        namespace Port {
+{% block predict %}
+    float votes[{{ classes|length }}] = { 0.0f };
 
-            class {{ classname }} {
-                public:
+    {% include 'gaussiannb/vote.jinja' %}
+    {% include 'vote.jinja' %}
+{% endblock %}
 
-                    /**
-                     * Predict class for features vector
-                     */
-                    int predict(float *x) {
-                        float votes[{{ classes|length }}] = { 0.0f };
+{% block protected %}
+    /**
+     * Compute gaussian value
+     */
+    float gauss(float *x, float *theta, float *sigma) {
+        float gauss = 0.0f;
 
-                        {% include 'gaussiannb/vote.jinja' %}
-                        {% include 'vote.jinja' %}
-                    }
-
-                    {% include 'classmap.jinja' %}
-
-                protected:
-
-                    /**
-                     * Compute gaussian value
-                     */
-                    float gauss(float *x, float *theta, float *sigma) {
-                        float gauss = 0.0f;
-
-                        for (uint16_t i = 0; i < {{ theta[0]|length }}; i++) {
-                            gauss += log(sigma[i]);
-                            gauss += pow(x[i] - theta[i], 2) / sigma[i];
-                        }
-
-                        return gauss;
-                    }
-            };
+        for (uint16_t i = 0; i < {{ theta[0]|length }}; i++) {
+            gauss += log(sigma[i]);
+            gauss += abs(x[i] - theta[i]) / sigma[i];
         }
+
+        return gauss;
     }
-}
+{% endblock %}

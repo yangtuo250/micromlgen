@@ -1,11 +1,15 @@
-from micromlgen.utils import jinja
+from micromlgen.utils import jinja, check_type
 
 
-def port_rvm(clf, classname, **kwargs):
+def is_rvm(clf):
+    """Test if classifier can be ported"""
+    return check_type(clf, 'RVC')
+
+
+def port_rvm(clf, **kwargs):
     """Port a RVM classifier"""
-    assert classname is None or len(classname) > 0, 'Invalid class name'
-    template_data = {
-        **kwargs,
+    return jinja('rvm/rvm.jinja', {
+        'n_classes': len(clf.intercept_),
         'kernel': {
             'type': clf.kernel,
             'gamma': clf.gamma,
@@ -13,7 +17,7 @@ def port_rvm(clf, classname, **kwargs):
             'degree': clf.degree
         },
         'sizes': {
-            'features': len(clf.relevant_vectors_[0]),
+            'features': clf.relevant_vectors_[0].shape[1],
         },
         'arrays': {
             'vectors': clf.relevant_vectors_,
@@ -23,6 +27,6 @@ def port_rvm(clf, classname, **kwargs):
             'mean': clf._x_mean,
             'std': clf._x_std
         },
-        'classname': classname if classname is not None else 'RVM',
-    }
-    return jinja('rvm/rvm.jinja', template_data)
+    }, {
+        'classname': 'RVC'
+    }, **kwargs)

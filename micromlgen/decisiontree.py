@@ -1,15 +1,13 @@
-from sklearn.tree import DecisionTreeClassifier
-from micromlgen.utils import jinja
+from micromlgen.utils import jinja, check_type
 
 
 def is_decisiontree(clf):
     """Test if classifier can be ported"""
-    return isinstance(clf, DecisionTreeClassifier)
+    return check_type(clf, 'DecisionTreeClassifier')
 
 
 def port_decisiontree(clf, **kwargs):
     """Port sklearn's DecisionTreeClassifier"""
-    kwargs['classname'] = kwargs['classname'] or 'DecisionTree'
     return jinja('decisiontree/decisiontree.jinja', {
         'left': clf.tree_.children_left,
         'right': clf.tree_.children_right,
@@ -17,4 +15,6 @@ def port_decisiontree(clf, **kwargs):
         'thresholds': clf.tree_.threshold,
         'classes': clf.tree_.value,
         'i': 0
+    }, {
+        'classname': 'DecisionTree'
     }, **kwargs)

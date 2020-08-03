@@ -1,18 +1,17 @@
-from sklearn.svm import OneClassSVM
-
-from micromlgen.utils import jinja
+from micromlgen.utils import jinja, check_type
 
 
-def port_svm(clf, classname=None, **kwargs):
+def is_svm(clf):
+    """Test if classifier can be ported"""
+    return check_type(clf, 'SVC', 'LinearSVC', 'OneClassSVM')
+
+
+def port_svm(clf, **kwargs):
     """Port a SVC / LinearSVC classifier"""
     assert isinstance(clf.gamma, float), 'You probably didn\'t set an explicit value for gamma: 0.001 is a good default'
-    assert classname is None or len(classname) > 0, 'Invalid class name'
-    if classname is None:
-        classname = 'OneClassSVM' if isinstance(clf, OneClassSVM) else 'SVM'
     support_v = clf.support_vectors_
     n_classes = len(clf.n_support_)
-    template_data = {
-        **kwargs,
+    return jinja('svm/svm.jinja', {
         'kernel': {
             'type': clf.kernel,
             'gamma': clf.gamma,
@@ -30,7 +29,7 @@ def port_svm(clf, classname=None, **kwargs):
             'supports': support_v,
             'intercepts': clf.intercept_,
             'coefs': clf.dual_coef_
-        },
-        'classname': classname
-    }
-    return jinja('svm/svm.jinja', template_data)
+        }
+    }, {
+        'classname': 'OneClassSVM' if check_type(clf, 'OneClassSVM') else 'SVM'
+    }, **kwargs)
