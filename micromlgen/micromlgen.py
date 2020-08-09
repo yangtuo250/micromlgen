@@ -33,4 +33,4 @@ def port(
         return port_gaussiannb(**locals())
     elif is_pca(clf):
         return port_pca(**locals())
-    raise TypeError('clf MUST be one of SVC, LinearSVC, OneClassSVC, RVC, DecisionTree, RandomForest, LogisticRegression, GaussianNB, SEFR, PCA')
+    raise TypeError('clf MUST be one of %s' % ', '.join(platforms.ALLOWED_CLASSIFIERS))

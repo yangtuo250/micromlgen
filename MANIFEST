@@ -6,7 +6,6 @@ micromlgen/decisiontree.py
 micromlgen/gaussiannb.py
 micromlgen/logisticregression.py
 micromlgen/micromlgen.py
-micromlgen/patches.py
 micromlgen/pca.py
 micromlgen/platforms.py
 micromlgen/randomforest.py
@@ -14,6 +13,7 @@ micromlgen/rvm.py
 micromlgen/sefr.py
 micromlgen/svm.py
 micromlgen/utils.py
+micromlgen/templates/_skeleton.jinja
 micromlgen/templates/classmap.jinja
 micromlgen/templates/dot.jinja
 micromlgen/templates/testset.jinja
