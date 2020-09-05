@@ -39,6 +39,8 @@ def prettify(code):
     # strip empty lines between closing braces (2 times)
     pretty = re.sub(r'\}\n\n(\s*?)\}', lambda m: '}\n%s}' % m.groups(), pretty)
     pretty = re.sub(r'\}\n\n(\s*?)\}', lambda m: '}\n%s}' % m.groups(), pretty)
+    # remove "," before "}"
+    pretty = re.sub(r',\s*\}', '}', pretty)
     return pretty
 
 
@@ -57,7 +59,8 @@ def jinja(template_file, data, defaults=None, **kwargs):
         'f': {
             'enumerate': enumerate,
             'round': lambda x: round(x, data.get('precision', 12) or 12),
-            'zip': zip
+            'zip': zip,
+            'signed': lambda x: '' if x == 0 else '+' + str(x) if x >= 0 else x
         }
     })
     data = {

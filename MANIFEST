@@ -13,6 +13,7 @@ micromlgen/rvm.py
 micromlgen/sefr.py
 micromlgen/svm.py
 micromlgen/utils.py
+micromlgen/wifiindoorpositioning.py
 micromlgen/templates/_skeleton.jinja
 micromlgen/templates/classmap.jinja
 micromlgen/templates/dot.jinja
@@ -41,3 +42,4 @@ micromlgen/templates/svm/computations/kernel/attiny.jinja
 micromlgen/templates/svm/kernel/arduino.jinja
 micromlgen/templates/svm/kernel/attiny.jinja
 micromlgen/templates/svm/kernel/kernel.jinja
+micromlgen/templates/wifiindoorpositioning/wifiindoorpositioning.jinja
