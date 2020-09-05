@@ -1,5 +1,6 @@
 import os
 import re
+from math import sin, cos
 from inspect import getmro
 from jinja2 import FileSystemLoader, Environment
 
@@ -51,6 +52,8 @@ def jinja(template_file, data, defaults=None, **kwargs):
     template = Environment(loader=loader).get_template(template_file)
     data = {k: v for k, v in data.items() if v is not None}
     kwargs = {k: v for k, v in kwargs.items() if v is not None}
+    precision = data.get('precision', 12) or 12
+    precision_fmt = '%.' + str(precision) + 'f'
     if defaults is None:
         defaults = {}
     defaults.setdefault('platform', 'arduino')
@@ -58,9 +61,14 @@ def jinja(template_file, data, defaults=None, **kwargs):
     defaults.update({
         'f': {
             'enumerate': enumerate,
-            'round': lambda x: round(x, data.get('precision', 12) or 12),
+            'round': lambda x: round(x, precision),
             'zip': zip,
-            'signed': lambda x: '' if x == 0 else '+' + str(x) if x >= 0 else x
+            'signed': lambda x: '' if x == 0 else '+' + str(x) if x >= 0 else x,
+            'to_array': lambda x, as_int=False: ', '.join([precision_fmt % xx if not as_int else str(xx) for xx in x])
+        },
+        'math': {
+            'cos': cos,
+            'sin': sin
         }
     })
     data = {

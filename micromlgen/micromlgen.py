@@ -7,6 +7,7 @@ from micromlgen.randomforest import is_randomforest, port_randomforest
 from micromlgen.logisticregression import is_logisticregression, port_logisticregression
 from micromlgen.gaussiannb import is_gaussiannb, port_gaussiannb
 from micromlgen.pca import is_pca, port_pca
+from micromlgen.principalfft import is_principalfft, port_principalfft
 
 
 def port(
@@ -14,7 +15,8 @@ def port(
         classname=None,
         classmap=None,
         platform=platforms.ARDUINO,
-        precision=None):
+        precision=None,
+        **kwargs):
     """Port a classifier to plain C++"""
     assert platform in platforms.ALL, 'Unknown platform %s. Use one of %s' % (platform, ', '.join(platforms.ALL))
     if is_svm(clf):
@@ -33,4 +35,6 @@ def port(
         return port_gaussiannb(**locals())
     elif is_pca(clf):
         return port_pca(**locals())
+    elif is_principalfft(clf):
+        return port_principalfft(**locals(), **kwargs)
     raise TypeError('clf MUST be one of %s' % ', '.join(platforms.ALLOWED_CLASSIFIERS))

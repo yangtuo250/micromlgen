@@ -15,5 +15,6 @@ ALLOWED_CLASSIFIERS = [
     'RandomForest',
     'GaussianNB',
     'LogisticRegression',
-    'PCA'
+    'PCA',
+    'PrincipalFFT'
 ]
