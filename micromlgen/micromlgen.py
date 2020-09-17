@@ -8,6 +8,7 @@ from micromlgen.logisticregression import is_logisticregression, port_logisticre
 from micromlgen.gaussiannb import is_gaussiannb, port_gaussiannb
 from micromlgen.pca import is_pca, port_pca
 from micromlgen.principalfft import is_principalfft, port_principalfft
+from micromlgen.linear_regression import is_linear_regression, port_linear_regression
 
 
 def port(
@@ -37,4 +38,6 @@ def port(
         return port_pca(**locals())
     elif is_principalfft(clf):
         return port_principalfft(**locals(), **kwargs)
+    elif is_linear_regression(clf):
+        return port_linear_regression(**locals(), **kwargs)
     raise TypeError('clf MUST be one of %s' % ', '.join(platforms.ALLOWED_CLASSIFIERS))

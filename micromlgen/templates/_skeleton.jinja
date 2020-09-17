@@ -9,7 +9,7 @@ namespace Eloquent {
                     /**
                      * Predict class for features vector
                      */
-                    int predict(float *x) {
+                    {{ dtype|default("int", true) }} predict(float *x) {
                         {% block predict %}{% endblock %}
                     }
 

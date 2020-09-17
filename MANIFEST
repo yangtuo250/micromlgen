@@ -2,12 +2,14 @@
 setup.cfg
 setup.py
 micromlgen/__init__.py
+micromlgen/convolution.py
 micromlgen/decisiontree.py
 micromlgen/gaussiannb.py
 micromlgen/logisticregression.py
 micromlgen/micromlgen.py
 micromlgen/pca.py
 micromlgen/platforms.py
+micromlgen/principalfft.py
 micromlgen/randomforest.py
 micromlgen/rvm.py
 micromlgen/sefr.py
@@ -20,6 +22,7 @@ micromlgen/templates/dot.jinja
 micromlgen/templates/testset.jinja
 micromlgen/templates/trainset.jinja
 micromlgen/templates/vote.jinja
+micromlgen/templates/convolution/convolution2d.jinja
 micromlgen/templates/decisiontree/decisiontree.jinja
 micromlgen/templates/decisiontree/tree.jinja
 micromlgen/templates/gaussiannb/gaussiannb.jinja
@@ -28,6 +31,9 @@ micromlgen/templates/logisticregression/logisticregression.jinja
 micromlgen/templates/logisticregression/vote.arduino.jinja
 micromlgen/templates/logisticregression/vote.attiny.jinja
 micromlgen/templates/pca/pca.jinja
+micromlgen/templates/principalfft/lut.jinja
+micromlgen/templates/principalfft/lut_bool.jinja
+micromlgen/templates/principalfft/principalfft.jinja
 micromlgen/templates/randomforest/randomforest.jinja
 micromlgen/templates/randomforest/tree.jinja
 micromlgen/templates/rvm/rvm.jinja
