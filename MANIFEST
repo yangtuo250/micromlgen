@@ -5,6 +5,7 @@ micromlgen/__init__.py
 micromlgen/convolution.py
 micromlgen/decisiontree.py
 micromlgen/gaussiannb.py
+micromlgen/linear_regression.py
 micromlgen/logisticregression.py
 micromlgen/micromlgen.py
 micromlgen/pca.py
@@ -16,6 +17,7 @@ micromlgen/sefr.py
 micromlgen/svm.py
 micromlgen/utils.py
 micromlgen/wifiindoorpositioning.py
+micromlgen/xgboost.py
 micromlgen/templates/_skeleton.jinja
 micromlgen/templates/classmap.jinja
 micromlgen/templates/dot.jinja
@@ -27,6 +29,7 @@ micromlgen/templates/decisiontree/decisiontree.jinja
 micromlgen/templates/decisiontree/tree.jinja
 micromlgen/templates/gaussiannb/gaussiannb.jinja
 micromlgen/templates/gaussiannb/vote.jinja
+micromlgen/templates/linearregression/linearregression.jinja
 micromlgen/templates/logisticregression/logisticregression.jinja
 micromlgen/templates/logisticregression/vote.arduino.jinja
 micromlgen/templates/logisticregression/vote.attiny.jinja
@@ -49,3 +52,5 @@ micromlgen/templates/svm/kernel/arduino.jinja
 micromlgen/templates/svm/kernel/attiny.jinja
 micromlgen/templates/svm/kernel/kernel.jinja
 micromlgen/templates/wifiindoorpositioning/wifiindoorpositioning.jinja
+micromlgen/templates/xgboost/tree.jinja
+micromlgen/templates/xgboost/xgboost.jinja

@@ -16,5 +16,6 @@ ALLOWED_CLASSIFIERS = [
     'GaussianNB',
     'LogisticRegression',
     'PCA',
-    'PrincipalFFT'
+    'PrincipalFFT',
+    'LinearRegression'
 ]
