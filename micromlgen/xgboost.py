@@ -33,7 +33,6 @@ def port_xgboost(clf, **kwargs):
         tmp.seek(0)
         decoded = json.load(tmp)
         trees = [format_tree(tree) for tree in decoded['learner']['gradient_booster']['model']['trees']]
-        print(trees)
         return jinja('xgboost/xgboost.jinja', {
             'n_classes': int(decoded['learner']['learner_model_param']['num_class']),
             'trees': trees,
