@@ -17,5 +17,6 @@ ALLOWED_CLASSIFIERS = [
     'LogisticRegression',
     'PCA',
     'PrincipalFFT',
-    'LinearRegression'
+    'LinearRegression',
+    'XGBClassifier'
 ]
