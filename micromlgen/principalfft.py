@@ -4,7 +4,7 @@ from math import pi
 
 def is_principalfft(clf):
     """Test if classifier can be ported"""
-    return check_type(clf, 'PrincipalFFT')
+    return check_type(clf, 'PrincipalFFT') or check_type(clf, 'KFFT')
 
 
 def port_principalfft(clf, optimize_sin=False, lookup_cos=None, lookup_sin=None, **kwargs):
