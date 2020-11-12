@@ -2,5 +2,4 @@ setup_template.py
 venv
 .idea
 tests
-dist
 micromlgen/__pycache__
