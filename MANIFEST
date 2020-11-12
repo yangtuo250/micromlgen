@@ -2,7 +2,6 @@
 setup.cfg
 setup.py
 micromlgen/__init__.py
-micromlgen/convolution.py
 micromlgen/decisiontree.py
 micromlgen/gaussiannb.py
 micromlgen/linear_regression.py
@@ -24,7 +23,6 @@ micromlgen/templates/dot.jinja
 micromlgen/templates/testset.jinja
 micromlgen/templates/trainset.jinja
 micromlgen/templates/vote.jinja
-micromlgen/templates/convolution/convolution2d.jinja
 micromlgen/templates/decisiontree/decisiontree.jinja
 micromlgen/templates/decisiontree/tree.jinja
 micromlgen/templates/gaussiannb/gaussiannb.jinja
