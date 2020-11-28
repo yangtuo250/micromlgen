@@ -5,7 +5,7 @@ cp setup_template.py setup.py
 sed -i "s/VERSION/${1}/g" setup.py
 python setup.py sdist
 twine upload dist/*
-rm dist/micromlgen-${1}.tar.gz
+# rm dist/micromlgen-${1}.tar.gz
 # tar -czv -f dist/micromlgen-${1}.tar.gz micromlgen --exclude='*.pyc'
 git add .
 git commit -m "bump dist to ${1}"
