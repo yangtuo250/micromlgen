@@ -7,7 +7,6 @@ ALL = [
 
 ALLOWED_CLASSIFIERS = [
     'SVC',
-    'LinearSVC',
     'OneClassSVC',
     'RVC',
     'SEFR',

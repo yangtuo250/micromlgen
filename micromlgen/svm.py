@@ -3,14 +3,16 @@ from micromlgen.utils import jinja, check_type
 
 def is_svm(clf):
     """Test if classifier can be ported"""
-    return check_type(clf, 'SVC', 'LinearSVC', 'OneClassSVM')
+    return check_type(clf, 'SVC', 'OneClassSVM')
 
 
 def port_svm(clf, **kwargs):
-    """Port a SVC / LinearSVC classifier"""
+    """Port a SVC / OneClassSVC classifier"""
     assert isinstance(clf.gamma, float), 'You probably didn\'t set an explicit value for gamma: 0.001 is a good default'
+
     support_v = clf.support_vectors_
     n_classes = len(clf.n_support_)
+
     return jinja('svm/svm.jinja', {
         'kernel': {
             'type': clf.kernel,
