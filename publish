@@ -4,7 +4,7 @@ rm dist/micromlgen-${1}.tar.gz
 cp setup_template.py setup.py
 sed -i "s/VERSION/${1}/g" setup.py
 python setup.py sdist
-twine upload dist/*
+twine upload dist/micromlgen-${1}.tar.gz
 # rm dist/micromlgen-${1}.tar.gz
 # tar -czv -f dist/micromlgen-${1}.tar.gz micromlgen --exclude='*.pyc'
 git add .
