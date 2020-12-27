@@ -2,7 +2,7 @@
 
 rm dist/micromlgen-${1}.tar.gz
 sed "s/VERSION/${1}/" setup_template.py > setup.py
-python setup.py sdist
+python3 setup.py sdist
 twine upload dist/micromlgen-${1}.tar.gz
 git add .
 git commit -m "bump dist to ${1}"
