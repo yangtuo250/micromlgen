@@ -1,10 +1,17 @@
 {% if classmap is not none %}
 
 /**
- * Convert class idx to readable name
+ * Predict readable class name
  */
 const char* predictLabel(float *x) {
-    switch (predict(x)) {
+    return idxToLabel(predict(x));
+}
+
+/**
+ * Convert class idx to readable name
+ */
+const char* idxToLabel(uint8_t classIdx) {
+    switch (classIdx) {
         {% for idx, name in classmap.items() %}
             case {{ idx }}:
                 return "{{ name }}";
