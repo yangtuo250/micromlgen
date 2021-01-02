@@ -1,8 +1,5 @@
 from distutils.core import setup
-from glob import glob
 
-package_data = [filename.replace('micromlgen/', '')
-                for filename in glob('micromlgen/**/*.jinja', recursive=True)]
 
 setup(
   name = 'micromlgen',
@@ -24,7 +21,7 @@ setup(
     'jinja2',
   ],
   package_data={
-    'micromlgen': package_data
+    'micromlgen': PACKAGE_DATA
   },
   classifiers=[
     'Development Status :: 5 - Production/Stable',
