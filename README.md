@@ -8,10 +8,18 @@ to an introduction to the topic.
 
 `pip install micromlgen`
 
-## Support (and Relevant) Vector Machines
+## Supported classifiers
 
-`micromlgen` can port to plain C SVM-based (SVC, LinearSVC, OneClassSVM)
-and RVM-based (from `skbayes.rvm_ard_models` package) classifiers.
+`micromlgen` can port to plain C many types of classifiers:
+
+ - DecisionTree
+ - RandomForest
+ - XGBoost
+ - GaussianNB
+ - Support Vector Machines (SVC and OneClassSVM)
+ - Relevant Vector Machines (from `skbayes.rvm_ard_models` package)
+ - SEFR
+ - PCA
 
 ```python
 from micromlgen import port
