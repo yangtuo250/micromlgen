@@ -1,6 +1,6 @@
 #!/bin/bash
 
-templates=$(python -c 'import glob; print([f.replace("micromlgen/", "") for f in glob.glob("micromlgen/templates/**/*.jinja", recursive=True)])')
+templates=$(python -c 'import glob; print([f.replace("micromlgen/", "") for f in glob.glob("micromlgen/templates/**/*", recursive=True)])')
 templates=$(printf '%s\n' "$templates" | sed -e 's/[\/&]/\\&/g')
 rm dist/micromlgen-${1}.tar.gz
 cp setup_template.py setup.py
