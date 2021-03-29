@@ -1,0 +1,14 @@
+#include <stdarg.h>
+
+{% block public %}{% endblock %}
+
+{% block protected %}{% endblock %}
+
+{% include 'classmap.jinja' %}
+
+/**
+* Predict class for features vector
+*/
+{{ dtype|default("int", true) }} predict(float *x) {
+    {% block predict %}{% endblock %}
+}

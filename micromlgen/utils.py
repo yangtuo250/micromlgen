@@ -45,10 +45,13 @@ def prettify(code):
     return pretty
 
 
-def jinja(template_file, data, defaults=None, **kwargs):
+def jinja(template_file, data, defaults=None, cplusplus=True, **kwargs):
     """Render Jinja template"""
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    loader = FileSystemLoader(dir_path + '/templates')
+    if cplusplus:
+        loader = FileSystemLoader(dir_path + '/templates')
+    else:
+        loader = FileSystemLoader(dir_path + '/templates_C')
     template = Environment(loader=loader).get_template(template_file)
     data = {k: v for k, v in data.items() if v is not None}
     kwargs = {k: v for k, v in kwargs.items() if v is not None}

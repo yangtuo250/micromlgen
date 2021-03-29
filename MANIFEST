@@ -66,3 +66,13 @@ micromlgen/templates/wifiindoorpositioning/wifiindoorpositioning.jinja
 micromlgen/templates/xgboost/__init__.py
 micromlgen/templates/xgboost/tree.jinja
 micromlgen/templates/xgboost/xgboost.jinja
+micromlgen/templates_C/svm/__init__.py
+micromlgen/templates_C/svm/svm.jinja
+micromlgen/templates_C/svm/computations/class.jinja
+micromlgen/templates_C/svm/computations/decisions.jinja
+micromlgen/templates_C/svm/computations/votes.jinja
+micromlgen/templates_C/svm/computations/kernel/arduino.jinja
+micromlgen/templates_C/svm/computations/kernel/attiny.jinja
+micromlgen/templates_C/svm/kernel/arduino.jinja
+micromlgen/templates_C/svm/kernel/attiny.jinja
+micromlgen/templates_C/svm/kernel/kernel.jinja

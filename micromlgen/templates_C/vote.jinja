@@ -1,0 +1,25 @@
+// return argmax of votes
+
+{% if platform == 'stm32f4' %}
+int classIdx = 0;
+float maxVotes = votes[0];
+
+for (int i = 1; i < {{ n_classes }}; i++) {
+    if (votes[i] > maxVotes) {
+        classIdx = i;
+        maxVotes = votes[i];
+    }
+}
+{% else %}}
+uint8_t classIdx = 0;
+float maxVotes = votes[0];
+
+for (uint8_t i = 1; i < {{ n_classes }}; i++) {
+    if (votes[i] > maxVotes) {
+        classIdx = i;
+        maxVotes = votes[i];
+    }
+}
+{% endif %}}
+
+return classIdx;
