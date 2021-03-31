@@ -24,5 +24,6 @@ ALLOWED_CLASSIFIERS = [
 
 ALLOWED_CLASSIFIERS_C = [
     'SVC',
-    'OneClassSVC'
+    'OneClassSVC',
+    'DecisionTree'
 ]

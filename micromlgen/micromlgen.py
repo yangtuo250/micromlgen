@@ -21,7 +21,7 @@ def port(clf, classname=None, classmap=None, platform=platforms.ARDUINO, precisi
         return port_rvm(**locals())
     elif cplusplus and is_sefr(clf):
         return port_sefr(**locals())
-    elif cplusplus and is_decisiontree(clf):
+    elif is_decisiontree(clf):
         return port_decisiontree(**locals())
     elif cplusplus and is_randomforest(clf):
         return port_randomforest(**locals())
