@@ -25,5 +25,6 @@ ALLOWED_CLASSIFIERS = [
 ALLOWED_CLASSIFIERS_C = [
     'SVC',
     'OneClassSVC',
-    'DecisionTree'
+    'DecisionTree',
+    'XGBClassifier'
 ]

@@ -35,7 +35,7 @@ def port(clf, classname=None, classmap=None, platform=platforms.ARDUINO, precisi
         return port_principalfft(**locals(), **kwargs)
     elif cplusplus and is_linear_regression(clf):
         return port_linear_regression(**locals(), **kwargs)
-    elif cplusplus and is_xgboost(clf):
+    elif is_xgboost(clf):
         return port_xgboost(**locals(), **kwargs)
     raise TypeError('clf MUST be one of %s' %
                     ', '.join(platforms.ALLOWED_CLASSIFIERS if cplusplus else platforms.ALLOWED_CLASSIFIERS_C))
