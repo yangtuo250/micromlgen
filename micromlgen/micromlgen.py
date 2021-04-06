@@ -25,7 +25,7 @@ def port(clf, classname=None, classmap=None, platform=platforms.ARDUINO, precisi
         return port_decisiontree(**locals())
     elif cplusplus and is_randomforest(clf):
         return port_randomforest(**locals())
-    elif cplusplus and is_logisticregression(clf):
+    elif is_logisticregression(clf):
         return port_logisticregression(**locals())
     elif cplusplus and is_gaussiannb(clf):
         return port_gaussiannb(**locals())

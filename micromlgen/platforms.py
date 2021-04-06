@@ -27,5 +27,6 @@ ALLOWED_CLASSIFIERS_C = [
     'OneClassSVC',
     'DecisionTree',
     'XGBClassifier',
-    'LinearRegression'
+    'LinearRegression',
+    'LogisticRegression'
 ]
