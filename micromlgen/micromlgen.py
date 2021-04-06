@@ -8,7 +8,7 @@ from micromlgen.logisticregression import is_logisticregression, port_logisticre
 from micromlgen.gaussiannb import is_gaussiannb, port_gaussiannb
 from micromlgen.pca import is_pca, port_pca
 from micromlgen.principalfft import is_principalfft, port_principalfft
-from micromlgen.linear_regression import is_linear_regression, port_linear_regression
+from micromlgen.linearregression import is_linear_regression, port_linear_regression
 from micromlgen.xgboost import is_xgboost, port_xgboost
 
 
@@ -33,7 +33,7 @@ def port(clf, classname=None, classmap=None, platform=platforms.ARDUINO, precisi
         return port_pca(**locals())
     elif cplusplus and is_principalfft(clf):
         return port_principalfft(**locals(), **kwargs)
-    elif cplusplus and is_linear_regression(clf):
+    elif is_linear_regression(clf):
         return port_linear_regression(**locals(), **kwargs)
     elif is_xgboost(clf):
         return port_xgboost(**locals(), **kwargs)

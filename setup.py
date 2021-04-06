@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name='micromlgen',
     packages=['micromlgen'],
-    version='1.1.23',
+    version='1.1.23-C',
     license='MIT',
     description='Generate C code for microcontrollers from Python\'s sklearn classifiers',
     author='Simone Salerno',

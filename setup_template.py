@@ -7,9 +7,9 @@ setup(
   version = 'VERSION',
   license='MIT',
   description = 'Generate C code for microcontrollers from Python\'s sklearn classifiers',
-  author = 'Simone Salerno',
-  author_email = 'eloquentarduino@gmail.com',
-  url = 'https://github.com/eloquentarduino/micromlgen',
+  author = 'yangtuo250',
+  author_email = 'yangtuo250@gmail.com',
+  url = 'https://github.com/yangtuo250/micromlgen',
   download_url = 'https://github.com/eloquentarduino/micromlgen/blob/master/dist/micromlgen-VERSION.tar.gz?raw=true',
   keywords = [
     'ML',
@@ -32,5 +32,7 @@ setup(
     'Programming Language :: Python :: 3.4',
     'Programming Language :: Python :: 3.5',
     'Programming Language :: Python :: 3.6',
+    'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.8'
   ],
 )
