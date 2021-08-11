@@ -10,7 +10,7 @@ for (int i = 1; i < {{ n_classes }}; i++) {
         maxVotes = votes[i];
     }
 }
-{% else %}}
+{% else %}
 uint8_t classIdx = 0;
 float maxVotes = votes[0];
 
@@ -20,6 +20,6 @@ for (uint8_t i = 1; i < {{ n_classes }}; i++) {
         maxVotes = votes[i];
     }
 }
-{% endif %}}
+{% endif %}
 
 return classIdx;
